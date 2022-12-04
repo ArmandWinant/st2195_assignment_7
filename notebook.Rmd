@@ -12,6 +12,7 @@ output:
 ```{r}
 library(ggplot2)
 library(dplyr)
+library(ggthemes)
 ```
 
 ```{r}
@@ -19,6 +20,7 @@ titanic = read.csv(file = "data/train.csv", header = TRUE)
 titanic$Pclass <- factor(titanic$Pclass)
 titanic$Survived <- factor(titanic$Survived)
 ```
+
 ```{r}
 str(titanic)
 ```
@@ -40,26 +42,56 @@ class_bars
 
 ### Survival
 ```{r}
-survival_bars <- ggplot(titanic) + geom_bar(aes(x = Survived)) +
+survival_bars <- ggplot(titanic) + geom_bar(aes(x = Survived, fill=Survived)) +
   labs(title="Passenger Survival Counts", y = "Passenger Count") + theme_light()
 survival_bars
 ```
-
-### Gender & Ticket Class
-```{r}
-gender_bars + facet_grid(~Pclass) +
-  labs(title="Passenger Count by Ticket Class & Gender", y = "Passenger Count") +
-  theme_bw()
-```
-
-
+## Passenger Age Distribution
+### Histoogram of Passenger Age
 ```{r}
 age_hist <- ggplot(titanic %>% drop_na(Age)) +
   geom_histogram(aes(x = Age), binwidth = 5) +
   labs(title="Passenger Age") + theme_bw()
 age_hist
 ```
+### Age per Ticket Class
 ```{r}
 age_class_boxplot <- ggplot(titanic %>% drop_na(Age)) + geom_boxplot(aes(x=Pclass, y=Age))
 age_class_boxplot
+```
+### Age per Survival
+```{r}
+age_survival_boxplot <- ggplot(titanic %>% drop_na(Age)) + geom_boxplot(aes(x=Survived, y=Age))
+age_survival_boxplot
+```
+
+## Travel Fares
+```{r}
+fares_hist <- ggplot(titanic) + geom_histogram(aes(x = Fare), binwidth = 10)
+fares_hist
+```
+```{r}
+titanic %>% filter(Fare == 0)
+```
+
+## Family Size
+```{r}
+titanic$Family <- titanic$SibSp + titanic$Parch
+```
+
+```{r}
+ggplot(titanic) +
+  geom_boxplot(aes(y = Family)) +
+  facet_grid(~Pclass) +
+  labs(title = "Family Size by Ticket Class", y="Family Size") +
+  theme_solarized()
+```
+
+## Gender & Ticket Class
+```{r}
+ggplot(titanic) +
+  geom_bar(aes(x = Sex, fill=Survived), position = "stack") +
+  facet_grid(~Pclass) +
+  labs(title="Passenger Count by Ticket Class & Gender", y = "Passenger Count") +
+  theme_wsj()
 ```
