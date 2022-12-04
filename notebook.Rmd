@@ -16,6 +16,8 @@ library(dplyr)
 
 ```{r}
 titanic = read.csv(file = "data/train.csv", header = TRUE)
+titanic$Pclass <- factor(titanic$Pclass)
+titanic$Survived <- factor(titanic$Survived)
 ```
 ```{r}
 str(titanic)
@@ -31,7 +33,7 @@ gender_bars
 
 ### Ticket Class
 ```{r}
-class_bars <- ggplot(titanic) + geom_bar(aes(x = Pclass)) +
+class_bars <- ggplot(titanic) + geom_bar(aes(x = Pclass, fill=Pclass)) +
   labs(title = "Passenger Count by Ticket Class", y = "Passenger Count") + theme_classic()
 class_bars
 ```
@@ -56,4 +58,8 @@ age_hist <- ggplot(titanic %>% drop_na(Age)) +
   geom_histogram(aes(x = Age), binwidth = 5) +
   labs(title="Passenger Age") + theme_bw()
 age_hist
+```
+```{r}
+age_class_boxplot <- ggplot(titanic %>% drop_na(Age)) + geom_boxplot(aes(x=Pclass, y=Age))
+age_class_boxplot
 ```
