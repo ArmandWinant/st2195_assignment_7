@@ -1,0 +1,40 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+titanic = read.csv(file = "data/train.csv", header = TRUE)
+```
+```{r}
+str(titanic)
+```
+```{r}
+gender_bars <- ggplot(titanic) + geom_bar(aes(x = Sex, fill = Sex)) +
+  labs(title="Passenger Count by Gender")
+gender_bars
+```
+```{r}
+class_bars <- ggplot(titanic) + geom_bar(aes(x = Pclass)) +
+  labs(title = "Passenger Count by Ticket Class") + theme_classic()
+class_bars
+```
+```{r}
+survival_bars <- ggplot(titanic) + geom_bar(aes(x = Survived)) +
+  labs(title="Passenger Survival Counts") + theme_light()
+survival_bars
+```
+```{r}
+age_hist <- ggplot(titanic) +
+  geom_histogram(aes(x = Age), binwidth = 5) +
+  labs(title="Passenger Age") + theme_bw()
+age_hist
+```
