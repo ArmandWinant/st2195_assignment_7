@@ -90,8 +90,9 @@ ggplot(titanic) +
 ## Gender & Ticket Class
 ```{r}
 ggplot(titanic) +
-  geom_bar(aes(x = Sex, fill=Survived), position = "stack") +
+  geom_bar(aes(x = Sex, fill=Survived), position = "stack", color="black") +
   facet_grid(~Pclass) +
   labs(title="Passenger Count by Ticket Class & Gender", y = "Passenger Count") +
-  theme_wsj()
+  scale_fill_brewer() +
+  theme_bw()
 ```
