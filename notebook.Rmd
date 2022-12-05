@@ -11,6 +11,7 @@ output:
 
 ```{r}
 library(ggplot2)
+library(tidyverse)
 library(dplyr)
 library(ggthemes)
 ```
@@ -95,4 +96,9 @@ ggplot(titanic) +
   labs(title="Passenger Count by Ticket Class & Gender", y = "Passenger Count") +
   scale_fill_brewer() +
   theme_bw()
+```
+
+## Survival related to Age and Gender
+```{r}
+ggplot(titanic %>% drop_na(Age)) + geom_violin(aes(x=Sex, y=Age, fill=Survived))
 ```
